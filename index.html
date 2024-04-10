@@ -98,7 +98,7 @@
 			<div class="flip-card" onmouseover="flipCard(this)">
 				<div class="flip-card-inner">
 					<div class="flip-card-front"><img src="images/Cards/Back of Card.jpg" alt="Bluray's Last Supper"></div>
-					<div class="flip-card-back"><img src="images/Cards/Front of Cards_Bluray's Last Supper.jpg"
+					<div class="flip-card-back"><img src="images/Cards/Front of Cards_Bluray_s Last Supper.jpg"
 							alt="Bluray's Last Supper"></div>
 				</div>
 
@@ -109,7 +109,7 @@
 				</div>
 				<!-- Detail images -->
 				<div class="detail-images">
-					<img src="images/Full Image/Bluray's Last Supper.jpg" alt="">
+					<img src="images/Full Image/Bluray_s Last Supper.jpg" alt="">
 				</div>
 
 			</div>
@@ -452,7 +452,7 @@
 		<div class="column">
 			<h5>EMAIL</h5>
 			<a href="mailto:mitchell.patterson184@gmail.com">
-				<p>mitchell.patterson184@gmail.com</p>
+				<p>mitchell.patterson184<wbr>@gmail.com</p>
 			</a>
 		</div>
 		<div class="Footer-logo">
@@ -477,9 +477,9 @@
 
 
 	<!-- AUDIO FILE -->
-	<audio class="flip-sound" style="display:none;">
+	<!-- <audio class="flip-sound" style="display:none;">
 		<source src="soundeffects/card-flip.mp3" type="audio/mp3">
-	</audio>
+	</audio> -->
 
 
 
@@ -492,10 +492,13 @@
 			if (card.classList.contains('flipped')) {
 				return
 			} else {
-				flipsound.pause()
-				flipsound.currentTime = 0
+				//flipsound.pause()
+				//flipsound.currentTime = 0
+				//flipsound.play()
 				card.classList.add('flipped');
-				flipsound.play()
+				setTimeout(() => {
+					card.classList.add('flip-complete')
+				}, 250)
 			}
 		}
 
@@ -505,21 +508,25 @@
 		const close = document.querySelector('.close-overlay')
 		for (let i = 0; i < cards.length; i++) {
 			cards[i].addEventListener('click', function () {
-				let info = this.querySelector('.detail-info').innerHTML || ''
-				let imgs = this.querySelectorAll('.detail-images img') || ''
-				let _imgs = ``
-				for (let i = 0; i < imgs.length; i++) {
-					_imgs += `<img src="${imgs[i].getAttribute('src')}">`
+				if (this.classList.contains('flip-complete')) {
+					let info = this.querySelector('.detail-info').innerHTML || ''
+					let imgs = this.querySelectorAll('.detail-images img') || ''
+					let _imgs = ``
+					for (let i = 0; i < imgs.length; i++) {
+						_imgs += `<img src="${imgs[i].getAttribute('src')}">`
+					}
+					overlay.innerHTML = `
+					<div>${_imgs}</div>
+					<div>${info}</div>
+					`
+					document.querySelector('body').classList.add('overlay-active')
+					document.querySelector('html').classList.add('overflow-hidden')
 				}
-				overlay.innerHTML = `
-				<div>${_imgs}</div>
-				<div>${info}</div>
-				`
-				document.querySelector('body').classList.add('overlay-active')
 			})
 		}
 		close.addEventListener('click', function () {
 			document.querySelector('body').classList.remove('overlay-active')
+			document.querySelector('html').classList.remove('overflow-hidden')
 			overlay.innerHTML = ''
 		})
 
